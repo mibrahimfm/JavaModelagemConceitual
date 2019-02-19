@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 public class Produto implements Serializable {
@@ -23,12 +25,13 @@ public class Produto implements Serializable {
 	private String nome;
 	private Double preco;
 
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA",
 			joinColumns=@JoinColumn(name="ProdutoID"),
 			inverseJoinColumns = @JoinColumn(name="CategoriaID")
 	)
-	private List<Categoria> Categorias = new ArrayList<>();
+	private List<Categoria> categorias = new ArrayList<>();
 	
 	public Produto() {}
 
@@ -64,18 +67,18 @@ public class Produto implements Serializable {
 	}
 
 	public List<Categoria> getCategorias() {
-		return Categorias;
+		return categorias;
 	}
 
 	public void setCategorias(List<Categoria> categorias) {
-		Categorias = categorias;
+		categorias = categorias;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Categorias == null) ? 0 : Categorias.hashCode());
+		result = prime * result + ((categorias == null) ? 0 : categorias.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
@@ -91,10 +94,10 @@ public class Produto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		if (Categorias == null) {
-			if (other.Categorias != null)
+		if (categorias == null) {
+			if (other.categorias != null)
 				return false;
-		} else if (!Categorias.equals(other.Categorias))
+		} else if (!categorias.equals(other.categorias))
 			return false;
 		if (id == null) {
 			if (other.id != null)
